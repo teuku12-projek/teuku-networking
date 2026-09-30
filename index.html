@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teuku Networking</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+    --bg:#07111f;
+    --sidebar:#0a1628;
+    --card:#101e31;
+    --card2:#14243a;
+    --text:#e8f1ff;
+    --muted:#8fa4bd;
+    --border:#243952;
+    --blue:#0ea5e9;
+    --blue2:#2563eb;
+    --green:#22c55e;
+    --yellow:#f59e0b;
+    --red:#ef4444;
+}
+
+body.light{
+    --bg:#eef4fa;
+    --sidebar:#ffffff;
+    --card:#ffffff;
+    --card2:#f4f7fb;
+    --text:#102033;
+    --muted:#607086;
+    --border:#d8e1ec;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:255px;
+    background:var(--sidebar);
+    border-right:1px solid var(--border);
+    padding:18px 13px;
+    overflow-y:auto;
+    z-index:100;
+}
+
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:8px;
+    margin-bottom:20px;
+}
+
+.logo{
+    width:45px;
+    height:45px;
+    border-radius:13px;
+    background:linear-gradient(135deg,var(--blue),var(--blue2));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.logo-area h2{
+    font-size:17px;
+}
+
+.logo-area small{
+    color:var(--muted);
+}
+
+.menu-title{
+    color:#657992;
+    font-size:10px;
+    letter-spacing:1.5px;
+    margin:18px 10px 7px;
+}
+
+.menu button{
+    width:100%;
+    padding:11px 12px;
+    margin:2px 0;
+    border:0;
+    border-radius:9px;
+    background:transparent;
+    color:var(--muted);
+    text-align:left;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.menu button:hover,
+.menu button.active{
+    background:#12243b;
+    color:white;
+}
+
+.menu button.active{
+    border-left:3px solid var(--blue);
+}
+
+.main{
+    margin-left:255px;
+    padding:20px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
+}
+
+.topbar h1{
+    font-size:25px;
+}
+
+.topbar p{
+    color:var(--muted);
+    margin-top:5px;
+    font-size:13px;
+}
+
+.top-actions{
+    display:flex;
+    gap:8px;
+}
+
+.btn{
+    padding:9px 13px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.btn:hover{
+    filter:brightness(1.12);
+}
+
+.btn-primary{
+    background:var(--blue2);
+    color:white;
+    border-color:var(--blue2);
+}
+
+.btn-danger{
+    background:#7f1d1d;
+    color:white;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+/* CARDS */
+.grid{
+    display:grid;
+    gap:15px;
+}
+
+.stats{
+    grid-template-columns:repeat(4,1fr);
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:13px;
+    padding:17px;
+}
+
+.stat{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.stat-icon{
+    width:43px;
+    height:43px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:11px;
+    background:#102b46;
+    font-size:20px;
+}
+
+.stat-number{
+    font-size:28px;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+.muted{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.green{
+    color:var(--green);
+}
+
+.yellow{
+    color:var(--yellow);
+}
+
+.red{
+    color:var(--red);
+}
+
+.section{
+    margin-top:23px;
+}
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+.section-header h2{
+    font-size:16px;
+}
+
+.two{
+    grid-template-columns:1.4fr 1fr;
+}
+
+.three{
+    grid-template-columns:repeat(3,1fr);
+}
+
+/* TABLE */
+.table-wrap{
+    overflow:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+}
+
+th,
+td{
+    padding:11px 9px;
+    border-bottom:1px solid var(--border);
+    text-align:left;
+    white-space:nowrap;
+}
+
+th{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.badge{
+    padding:4px 8px;
+    border-radius:20px;
+    font-size:11px;
+}
+
+.badge.green{
+    background:#052e19;
+    color:#86efac;
+}
+
+.badge.red{
+    background:#450a0a;
+    color:#fca5a5;
+}
+
+.badge.blue{
+    background:#082f49;
+    color:#7dd3fc;
+}
+
+.badge.yellow{
+    background:#451a03;
+    color:#fcd34d;
+}
+
+/* FORM */
+.form{
+    display:grid;
+    gap:10px;
+}
+
+label{
+    color:var(--muted);
+    font-size:12px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid var(--border);
+    background:var(--card2);
+    color:var(--text);
+    outline:none;
+}
+
+textarea{
+    min-height:110px;
+    resize:vertical;
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+/* TOOLBAR */
+.toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:12px;
+}
+
+.toolbar input{
+    max-width:300px;
+}
+
+/* TOPOLOGY */
+.topology{
+    height:430px;
+    position:relative;
+    overflow:hidden;
+    border-radius:14px;
+    background:
+    radial-gradient(circle at center,#142d4b,#091321 70%);
+    border:1px solid var(--border);
+}
+
+.node{
+    position:absolute;
+    width:125px;
+    padding:13px;
+    text-align:center;
+    border:1px solid #315879;
+    background:#102238;
+    border-radius:13px;
+    box-shadow:0 12px 30px #0005;
+}
+
+.node-icon{
+    font-size:29px;
+    margin-bottom:5px;
+}
+
+.node small{
+    color:#91a5bd;
+}
+
+.router{
+    left:50%;
+    top:30px;
+    transform:translateX(-50%);
+}
+
+.switch{
+    left:50%;
+    top:150px;
+    transform:translateX(-50%);
+}
+
+.pc1{
+    left:12%;
+    bottom:40px;
+}
+
+.pc2{
+    right:12%;
+    bottom:40px;
+}
+
+.ap{
+    left:50%;
+    bottom:35px;
+    transform:translateX(-50%);
+}
+
+.connection{
+    position:absolute;
+    height:2px;
+    background:#38bdf8;
+    opacity:.8;
+    transform-origin:left center;
+}
+
+.c1{
+    left:50%;
+    top:105px;
+    height:50px;
+    transform:rotate(90deg);
+}
+
+.c2{
+    left:50%;
+    top:215px;
+    width:170px;
+    transform:rotate(157deg);
+}
+
+.c3{
+    left:50%;
+    top:215px;
+    width:170px;
+    transform:rotate(23deg);
+}
+
+.c4{
+    left:50%;
+    top:215px;
+    width:90px;
+    transform:rotate(90deg);
+}
+
+/* SPEED */
+.speed-box{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.speed{
+    background:var(--card2);
+    border-radius:10px;
+    padding:15px;
+}
+
+.speed strong{
+    font-size:24px;
+}
+
+/* LOG */
+.log{
+    background:#050b12;
+    color:#a7f3d0;
+    border-radius:9px;
+    padding:12px;
+    font-family:monospace;
+    font-size:12px;
+    max-height:260px;
+    overflow:auto;
+}
+
+.log div{
+    padding:6px 0;
+    border-bottom:1px solid #172333;
+}
+
+/* MODAL */
+.modal{
+    position:fixed;
+    inset:0;
+    background:#0009;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:500;
+    padding:15px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:min(550px,100%);
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px;
+}
+
+.modal-head{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:15px;
+}
+
+.modal-head h3{
+    font-size:18px;
+}
+
+/* TOAST */
+.toast{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    background:#047857;
+    color:white;
+    padding:11px 15px;
+    border-radius:8px;
+    display:none;
+    z-index:999;
+}
+
+.toast.show{
+    display:block;
+}
+
+/* MOBILE */
+.mobile-menu{
+    display:none;
+}
+
+@media(max-width:950px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.25s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .two,
+    .three{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:600px){
+
+    .main{
+        padding:13px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+    }
+
+    .topbar h1{
+        font-size:20px;
+    }
+
+    .top-actions .hide-mobile{
+        display:none;
+    }
+
+    .node{
+        width:95px;
+        font-size:12px;
+    }
+
+    .pc1{
+        left:2%;
+    }
+
+    .pc2{
+        right:2%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+
+<div class="logo-area">
+    <div class="logo">TN</div>
+    <div>
+        <h2>Teuku Networking</h2>
+        <small>Network Management</small>
+    </div>
+</div>
+
+<div class="menu">
+
+<div class="menu-title">MAIN</div>
+
+<button class="active" onclick="showPage('dashboard',this)">
+    🏠 Dashboard
+</button>
+
+<button onclick="showPage('topology',this)">
+    🌐 Network Topology
+</button>
+
+<button onclick="showPage('devices',this)">
+    🖥️ Devices
+</button>
+
+<button onclick="showPage('clients',this)">
+    👥 Clients
+</button>
+
+<div class="menu-title">NETWORK TOOLS</div>
+
+<button onclick="showPage('ipmanager',this)">
+    📋 IP Manager
+</button>
+
+<button onclick="showPage('subnet',this)">
+    🧮 Subnet Calculator
+</button>
+
+<button onclick="showPage('ping',this)">
+    📡 Ping Tester
+</button>
+
+<button onclick="showPage('wifi',this)">
+    📶 Wi-Fi Manager
+</button>
+
+<button onclick="showPage('firewall',this)">
+    🔥 Firewall
+</button>
+
+<div class="menu-title">MONITORING</div>
+
+<button onclick="showPage('monitoring',this)">
+    📊 Bandwidth
+</button>
+
+<button onclick="showPage('logs',this)">
+    📝 System Logs
+</button>
+
+<div class="menu-title">DOCUMENTATION</div>
+
+<button onclick="showPage('notes',this)">
+    📚 Dokumentasi
+</button>
+
+<button onclick="showPage('reports',this)">
+    📄 Laporan
+</button>
+
+<div class="menu-title">SYSTEM</div>
+
+<button onclick="showPage('settings',this)">
+    ⚙️ Settings
+</button>
+
+</div>
+</aside>
+
+
+<!-- MAIN -->
+<main class="main">
+
+<header class="topbar">
+
+<div>
+<button class="btn mobile-menu" onclick="toggleSidebar()">☰</button>
+<h1 id="pageTitle">Dashboard</h1>
+<p id="clock">Teuku Networking • Network Management</p>
+</div>
+
+<div class="top-actions">
+<button class="btn hide-mobile" onclick="toggleTheme()">🌙</button>
+<button class="btn btn-primary" onclick="openDeviceModal()">＋ Device</button>
+</div>
+
+</header>
+
+
+<!-- DASHBOARD -->
+<section class="page active" id="dashboard">
+
+<div class="grid stats">
+
+<div class="card">
+<div class="stat">
+<div>
+<div class="muted">Total Devices</div>
+<div class="stat-number" id="deviceCount">6</div>
+<div class="muted">Network devices</div>
+</div>
+<div class="stat-icon">🖥️</div>
+</div>
+</div>
+
+<div class="card">
+<div class="stat">
+<div>
+<div class="muted">Online Clients</div>
+<div class="stat-number green" id="onlineCount">8</div>
+<div class="muted">Active now</div>
+</div>
+<div class="stat-icon">👥</div>
+</div>
+</div>
+
+<div class="card">
+<div class="stat">
+<div>
+<div class="muted">Download</div>
+<div class="stat-number" id="downloadSpeed">42.8</div>
+<div class="muted">Mbps</div>
+</div>
+<div class="stat-icon">⬇️</div>
+</div>
+</div>
+
+<div class="card">
+<div class="stat">
+<div>
+<div class="muted">Upload</div>
+<div class="stat-number" id="uploadSpeed">8.4</div>
+<div class="muted">Mbps</div>
+</div>
+<div class="stat-icon">⬆️</div>
+</div>
+</div>
+
+</div>
+
+
+<div class="grid two section">
+
+<div class="card">
+<div class="section-header">
+<h2>Network Traffic</h2>
+<span class="badge green">● LIVE</span>
+</div>
+
+<canvas id="trafficChart" width="800" height="260"></canvas>
+</div>
+
+
+<div class="card">
+
+<div class="section-header">
+<h2>Network Status</h2>
+<span class="badge green">Healthy</span>
+</div>
+
+<div class="speed-box">
+
+<div class="speed">
+<span class="muted">WAN</span>
+<br>
+<strong class="green">ONLINE</strong>
+</div>
+
+<div class="speed">
+<span class="muted">LAN</span>
+<br>
+<strong class="green">ACTIVE</strong>
+</div>
+
+<div class="speed">
+<span class="muted">Wi-Fi</span>
+<br>
+<strong class="green">ONLINE</strong>
+</div>
+
+<div class="speed">
+<span class="muted">DNS</span>
+<br>
+<strong class="green">OK</strong>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="section card">
+
+<div class="section-header">
+<h2>Recent Devices</h2>
+<button class="btn" onclick="showPage('devices')">View All</button>
+</div>
+
+<div class="table-wrap">
+
+<table>
+<thead>
+<tr>
+<th>Device</th>
+<th>IP Address</th>
+<th>Type</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="dashboardDevices"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- TOPOLOGY -->
+<section class="page" id="topology">
+
+<div class="card">
+
+<div class="section-header">
+<h2>Network Topology</h2>
+<span class="badge blue">Teuku Network</span>
+</div>
+
+<div class="topology">
+
+<div class="connection c1"></div>
+<div class="connection c2"></div>
+<div class="connection c3"></div>
+<div class="connection c4"></div>
+
+<div class="node router">
+<div class="node-icon">🌐</div>
+<strong>Router</strong>
+<small>192.168.1.1</small>
+</div>
+
+<div class="node switch">
+<div class="node-icon">🔀</div>
+<strong>Switch</strong>
+<small>Core Switch</small>
+</div>
+
+<div class="node pc1">
+<div class="node-icon">💻</div>
+<strong>PC / Server</strong>
+<small>192.168.1.10</small>
+</div>
+
+<div class="node pc2">
+<div class="node-icon">📱</div>
+<strong>Clients</strong>
+<small>Wi-Fi / LAN</small>
+</div>
+
+<div class="node ap">
+<div class="node-icon">📡</div>
+<strong>Access Point</strong>
+<small>192.168.1.2</small>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- DEVICES -->
+<section class="page" id="devices">
+
+<div class="card">
+
+<div class="section-header">
+<h2>Network Devices</h2>
+<button class="btn btn-primary" onclick="openDeviceModal()">＋ Tambah Device</button>
+</div>
+
+<div class="toolbar">
+<input type="text" id="deviceSearch" placeholder="🔍 Cari device..." oninput="renderDevices()">
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Nama</th>
+<th>IP</th>
+<th>Jenis</th>
+<th>Vendor</th>
+<th>Status</th>
+<th>Aksi</th>
+</tr>
+</thead>
+
+<tbody id="deviceTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- CLIENTS -->
+<section class="page" id="clients">
+
+<div class="card">
+
+<div class="section-header">
+<h2>Client Manager</h2>
+<button class="btn btn-primary" onclick="addClient()">＋ Client</button>
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Hostname</th>
+<th>IP</th>
+<th>MAC</th>
+<th>Connection</th>
+<th>Status</th>
+<th>Aksi</th>
+</tr>
+</thead>
+
+<tbody id="clientTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- IP MANAGER -->
+<section class="page" id="ipmanager">
+
+<div class="grid two">
+
+<div class="card">
+
+<div class="section-header">
+<h2>IP Address Manager</h2>
+<button class="btn btn-primary" onclick="addIP()">＋ Tambah</button>
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>IP Address</th>
+<th>Device</th>
+<th>Gateway</th>
+<th>Status</th>
+<th>Aksi</th>
+</tr>
+</thead>
+
+<tbody id="ipTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2 style="margin-bottom:15px">Network Information</h2>
+
+<div class="form">
+
+<label>Gateway</label>
+<input value="192.168.1.1" id="gateway">
+
+<label>DNS Primary</label>
+<input value="1.1.1.1">
+
+<label>DNS Secondary</label>
+<input value="8.8.8.8">
+
+<label>Network</label>
+<input value="192.168.1.0/24">
+
+<button class="btn btn-primary" onclick="saveSettings()">💾 Simpan</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- SUBNET -->
+<section class="page" id="subnet">
+
+<div class="grid two">
+
+<div class="card">
+
+<h2 style="margin-bottom:15px">Subnet Calculator</h2>
+
+<div class="form">
+
+<label>IP Address</label>
+<input id="subIP" value="192.168.1.10">
+
+<label>Prefix</label>
+
+<select id="prefix">
+
+<option value="8">/8</option>
+<option value="16">/16</option>
+<option value="24" selected>/24</option>
+<option value="25">/25</option>
+<option value="26">/26</option>
+<option value="27">/27</option>
+<option value="28">/28</option>
+<option value="29">/29</option>
+<option value="30">/30</option>
+
+</select>
+
+<button class="btn btn-primary" onclick="calculateSubnet()">Calculate</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2 style="margin-bottom:15px">Hasil</h2>
+
+<div class="form">
+
+<input id="networkResult" readonly placeholder="Network Address">
+
+<input id="broadcastResult" readonly placeholder="Broadcast Address">
+
+<input id="maskResult" readonly placeholder="Subnet Mask">
+
+<input id="hostResult" readonly placeholder="Jumlah Host">
+
+<input id="rangeResult" readonly placeholder="Host Range">
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- PING -->
+<section class="page" id="ping">
+
+<div class="grid two">
+
+<div class="card">
+
+<h2 style="margin-bottom:15px">Ping Tester</h2>
+
+<div class="form">
+
+<label>IP / Hostname</label>
+
+<input id="pingTarget" value="192.168.1.1">
+
+<button class="btn btn-primary" onclick="runPing()">📡 Test Connection</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2 style="margin-bottom:15px">Result</h2>
+
+<div class="log" id="pingResult">
+> Ready...
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- WIFI -->
+<section class="page" id="wifi">
+
+<div class="grid two">
+
+<div class="card">
+
+<h2 style="margin-bottom:15px">Wi-Fi Configuration</h2>
+
+<div class="form">
+
+<label>SSID</label>
+<input id="ssid" value="Teuku Networking">
+
+<label>Frequency</label>
+
+<select id="frequency">
+<option>2.4 GHz</option>
+<option>5 GHz</option>
+<option>6 GHz</option>
+</select>
+
+<label>Channel</label>
+
+<select>
+<option>Auto</option>
+<option>1</option>
+<option>6</option>
+<option>11</option>
+<option>36</option>
+<option>40</option>
+<option>44</option>
+<option>48</option>
+</select>
+
+<label>Security</label>
+
+<select>
+<option>WPA3</option>
+<option>WPA2</option>
+<option>WPA2/WPA3</option>
+</select>
+
+<label>Password</label>
+<input type="password" value="teukunetworking">
+
+<button class="btn btn-primary" onclick="saveWifi()">💾 Simpan Wi-Fi</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2 style="margin-bottom:15px">Wireless Status</h2>
+
+<div class="speed-box">
+
+<div class="speed">
+<span class="muted">SSID</span>
+<br>
+<strong id="ssidView">Teuku Networking</strong>
+</div>
+
+<div class="speed">
+<span class="muted">Frequency</span>
+<br>
+<strong id="freqView">2.4 GHz</strong>
+</div>
+
+<div class="speed">
+<span class="muted">Clients</span>
+<br>
+<strong class="green">8</strong>
+</div>
+
+<div class="speed">
+<span class="muted">Signal</span>
+<br>
+<strong class="green">-42 dBm</strong>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- FIREWALL -->
+<section class="page" id="firewall">
+
+<div class="card">
+
+<div class="section-header">
+
+<h2>Firewall Rules</h2>
+
+<button class="btn btn-primary" onclick="addFirewall()">＋ Rule</button>
+
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>#</th>
+<th>Chain</th>
+<th>Protocol</th>
+<th>Source</th>
+<th>Destination</th>
+<th>Action</th>
+<th>Status</th>
+<th>Aksi</th>
+</tr>
+</thead>
+
+<tbody id="firewallTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- MONITORING -->
+<section class="page" id="monitoring">
+
+<div class="grid two">
+
+<div class="card">
+
+<div class="section-header">
+<h2>Bandwidth Monitor</h2>
+<span class="badge green">LIVE</span>
+</div>
+
+<canvas id="monitorChart" width="800" height="300"></canvas>
+
+</div>
+
+<div class="card">
+
+<h2 style="margin-bottom:15px">Current Traffic</h2>
+
+<div class="speed-box">
+
+<div class="speed">
+<span class="muted">Download</span>
+<br>
+<strong id="monDown">42.8 Mbps</strong>
+</div>
+
+<div class="speed">
+<span class="muted">Upload</span>
+<br>
+<strong id="monUp">8.4 Mbps</strong>
+</div>
+
+<div class="speed">
+<span class="muted">Latency</span>
+<br>
+<strong>12 ms</strong>
+</div>
+
+<div class="speed">
+<span class="muted">Packet Loss</span>
+<br>
+<strong class="green">0%</strong>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- LOGS -->
+<section class="page" id="logs">
+
+<div class="card">
+
+<div class="section-header">
+
+<h2>System Logs</h2>
+
+<button class="btn btn-danger" onclick="clearLogs()">Clear</button>
+
+</div>
+
+<div class="log" id="systemLogs"></div>
+
+</div>
+
+</section>
+
+
+<!-- NOTES -->
+<section class="page" id="notes">
+
+<div class="grid two">
+
+<div class="card">
+
+<h2 style="margin-bottom:15px">Dokumentasi Jaringan</h2>
+
+<div class="form">
+
+<label>Judul</label>
+<input id="noteTitle" placeholder="Contoh: Konfigurasi M

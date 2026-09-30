@@ -3,1749 +3,1270 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a33">
+
 <title>Teuku Networking</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+/* =====================================================
+   TEUKU NETWORKING
+   SINGLE FILE HTML
+===================================================== */
 
-:root{
- --bg:#07152e;
- --side:#081a36;
- --card:#0d2347;
- --card2:#102b55;
- --text:#eef6ff;
- --muted:#8fa7c8;
- --line:#214575;
- --blue:#19bff5;
- --blue2:#4777ff;
- --green:#20d98b;
- --red:#ff5d73;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
 }
 
 body{
- font-family:Arial,Helvetica,sans-serif;
- background:linear-gradient(135deg,#061329,#0a2044);
- color:var(--text);
- min-height:100vh;
- overflow-x:hidden;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#071426;
+    color:#eef6ff;
+    min-height:100vh;
+    overflow-x:hidden;
 }
 
 body.light{
- --bg:#edf3fa;
- --side:#fff;
- --card:#fff;
- --card2:#f5f8fc;
- --text:#16253b;
- --muted:#65758c;
- --line:#d6e0ec;
- background:#edf3fa;
+    background:#eef3f8;
+    color:#17253a;
 }
 
-/* SIDEBAR */
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+:root{
+    --blue:#16b9f4;
+    --blue2:#4c6fff;
+    --green:#20d992;
+    --red:#ff5b70;
+    --yellow:#ffc857;
+
+    --dark:#071426;
+    --sidebar:#081a32;
+    --card:#0d223f;
+    --card2:#10294b;
+    --border:#203f67;
+    --muted:#8fa8c7;
+}
+
+body.light{
+    --dark:#eef3f8;
+    --sidebar:#ffffff;
+    --card:#ffffff;
+    --card2:#f5f8fc;
+    --border:#d7e0ea;
+    --muted:#66778d;
+}
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
 
 .sidebar{
- position:fixed;
- left:0;
- top:0;
- bottom:0;
- width:260px;
- background:var(--side);
- border-right:1px solid var(--line);
- z-index:1000;
- overflow-y:auto;
- padding:18px 12px;
- transition:.25s;
-}
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
 
-.logo-area{
- display:flex;
- align-items:center;
- gap:11px;
- padding:8px;
- margin-bottom:20px;
+    width:260px;
+
+    background:var(--sidebar);
+    border-right:1px solid var(--border);
+
+    padding:18px 12px;
+
+    overflow-y:auto;
+
+    z-index:1000;
+
+    transition:.25s ease;
 }
 
 .logo{
- width:45px;
- height:45px;
- border-radius:12px;
- background:linear-gradient(135deg,var(--blue),var(--blue2));
- display:grid;
- place-items:center;
- font-weight:bold;
- font-size:17px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    padding:8px;
+
+    margin-bottom:20px;
 }
 
-.logo-area b{
- display:block;
- font-size:15px;
+.logo-icon{
+    width:45px;
+    height:45px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:12px;
+
+    background:linear-gradient(
+        135deg,
+        var(--blue),
+        var(--blue2)
+    );
+
+    color:white;
+    font-weight:bold;
 }
 
-.logo-area small{
- color:var(--muted);
+.logo-text b{
+    display:block;
+    font-size:15px;
+}
+
+.logo-text small{
+    color:var(--muted);
+    font-size:10px;
 }
 
 .menu-title{
- color:#7891b4;
- font-size:10px;
- font-weight:bold;
- letter-spacing:1px;
- margin:17px 10px 6px;
+    color:var(--muted);
+    font-size:10px;
+    font-weight:bold;
+
+    letter-spacing:1px;
+
+    padding:12px 10px 5px;
 }
 
-.menu button{
- width:100%;
- padding:11px 12px;
- border:0;
- background:transparent;
- color:var(--text);
- border-radius:9px;
- text-align:left;
- cursor:pointer;
- margin:2px 0;
- font-size:13px;
+.menu a{
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    padding:11px 12px;
+
+    margin:3px 0;
+
+    color:var(--muted);
+    text-decoration:none;
+
+    border-radius:9px;
+
+    font-size:13px;
+
+    transition:.2s;
 }
 
-.menu button:hover,
-.menu button.active{
- background:#174173;
- color:white;
+.menu a:hover,
+.menu a.active{
+    background:#173b68;
+    color:white;
 }
 
-.menu button span{
- margin-right:8px;
+.menu-icon{
+    width:20px;
+    text-align:center;
 }
 
-/* MAIN */
+/* =====================================================
+   MAIN
+===================================================== */
 
 .main{
- margin-left:260px;
- min-height:100vh;
- padding:22px;
+    margin-left:260px;
+
+    min-height:100vh;
+
+    padding:22px;
 }
 
-.header{
- display:flex;
- justify-content:space-between;
- align-items:center;
- margin-bottom:20px;
- gap:10px;
+/* =====================================================
+   TOP BAR
+===================================================== */
+
+.topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:12px;
+
+    margin-bottom:20px;
 }
 
-.header-left{
- display:flex;
- align-items:center;
- gap:10px;
- min-width:0;
+.top-left{
+    display:flex;
+    align-items:center;
+
+    gap:10px;
 }
 
-.header h1{
- font-size:25px;
+.top-left h1{
+    font-size:25px;
 }
 
-.header p{
- color:var(--muted);
- font-size:12px;
- margin-top:4px;
+.top-left p{
+    color:var(--muted);
+    font-size:12px;
+
+    margin-top:4px;
 }
 
-.header-actions{
- display:flex;
- gap:7px;
+.top-actions{
+    display:flex;
+    gap:7px;
 }
 
-/* BUTTON */
+.mobile-menu{
+    display:none;
+}
+
+/* =====================================================
+   BUTTON
+===================================================== */
 
 .btn{
- border:1px solid var(--line);
- background:var(--card);
- color:var(--text);
- padding:9px 13px;
- border-radius:8px;
- cursor:pointer;
- font-size:13px;
+    border:1px solid var(--border);
+
+    background:var(--card);
+
+    color:inherit;
+
+    padding:9px 13px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:12px;
+
+    transition:.2s;
 }
 
 .btn:hover{
- filter:brightness(1.12);
+    transform:translateY(-1px);
+    filter:brightness(1.12);
 }
 
-.primary{
- background:linear-gradient(135deg,var(--blue),var(--blue2));
- border:0;
- color:white;
+.btn-primary{
+    background:linear-gradient(
+        135deg,
+        var(--blue),
+        var(--blue2)
+    );
+
+    color:white;
+
+    border:0;
 }
 
-.danger{
- background:#63233a;
- color:white;
+.btn-danger{
+    background:#65243a;
+    color:white;
 }
 
-/* PAGES */
+/* =====================================================
+   PAGE
+===================================================== */
 
 .page{
- display:none;
+    display:none;
 }
 
 .page.active{
- display:block;
+    display:block;
+    animation:pageIn .2s ease;
 }
 
-/* CARDS */
-
-.cards{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:14px;
+@keyframes pageIn{
+    from{
+        opacity:0;
+        transform:translateY(5px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
+
+/* =====================================================
+   CARD
+===================================================== */
 
 .card{
- background:linear-gradient(145deg,var(--card),var(--card2));
- border:1px solid var(--line);
- border-radius:14px;
- padding:17px;
- box-shadow:0 8px 25px #0002;
+    background:linear-gradient(
+        145deg,
+        var(--card),
+        var(--card2)
+    );
+
+    border:1px solid var(--border);
+
+    border-radius:14px;
+
+    padding:17px;
+
+    box-shadow:0 8px 25px #0002;
+}
+
+.card-title{
+    font-size:16px;
+    margin-bottom:5px;
+}
+
+.card-subtitle{
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* =====================================================
+   DASHBOARD STATS
+===================================================== */
+
+.stats{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:14px;
 }
 
 .stat{
- min-height:120px;
+    min-height:125px;
 }
 
-.stat-title{
- color:var(--muted);
- font-size:13px;
+.stat-icon{
+    font-size:22px;
 }
 
-.stat-number{
- font-size:28px;
- font-weight:bold;
- margin:12px 0 4px;
+.stat-label{
+    color:var(--muted);
+    font-size:12px;
+
+    margin-top:8px;
 }
 
-.grid2{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:14px;
- margin-top:14px;
+.stat-value{
+    font-size:27px;
+    font-weight:bold;
+
+    margin-top:8px;
 }
 
-.grid3{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:14px;
+.stat-status{
+    font-size:10px;
+    color:var(--green);
+
+    margin-top:5px;
 }
 
-.muted{
- color:var(--muted);
+/* =====================================================
+   GRIDS
+===================================================== */
+
+.grid-2{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    margin-top:14px;
 }
 
-.green{
- color:var(--green);
+.grid-3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    margin-top:14px;
 }
 
-.red{
- color:var(--red);
+/* =====================================================
+   TOOLBAR
+===================================================== */
+
+.toolbar{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:14px;
 }
 
-/* FORM */
+.search{
+    width:250px;
+    max-width:100%;
+}
 
-.form{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:10px;
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
 }
 
 .full{
- grid-column:1/-1;
+    grid-column:1/-1;
 }
 
 label{
- display:block;
- color:var(--muted);
- font-size:12px;
- margin-bottom:5px;
+    display:block;
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    margin-bottom:5px;
 }
 
-input,select,textarea{
- width:100%;
- padding:10px;
- border-radius:8px;
- border:1px solid var(--line);
- background:#071a36;
- color:var(--text);
- outline:none;
- font-size:14px;
+input,
+select,
+textarea{
+    width:100%;
+
+    padding:10px;
+
+    border-radius:8px;
+
+    border:1px solid var(--border);
+
+    background:#071a32;
+
+    color:#fff;
+
+    outline:none;
+
+    font-size:13px;
 }
 
 body.light input,
 body.light select,
 body.light textarea{
- background:white;
- color:#15243a;
+    background:#fff;
+    color:#17253a;
 }
 
-/* TOOLBAR */
-
-.toolbar{
- display:flex;
- flex-wrap:wrap;
- gap:8px;
- margin-bottom:14px;
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:var(--blue);
 }
 
-.search{
- max-width:300px;
-}
-
-/* TABLE */
+/* =====================================================
+   TABLE
+===================================================== */
 
 .table-wrap{
- width:100%;
- overflow-x:auto;
+    width:100%;
+
+    overflow-x:auto;
+
+    -webkit-overflow-scrolling:touch;
 }
 
 table{
- width:100%;
- border-collapse:collapse;
- min-width:650px;
+    width:100%;
+    min-width:650px;
+
+    border-collapse:collapse;
 }
 
-th,td{
- padding:11px 9px;
- border-bottom:1px solid var(--line);
- text-align:left;
- font-size:12px;
- white-space:nowrap;
+th,
+td{
+    padding:11px 9px;
+
+    text-align:left;
+
+    border-bottom:1px solid var(--border);
+
+    font-size:12px;
+
+    white-space:nowrap;
 }
 
 th{
- color:var(--muted);
+    color:var(--muted);
 }
 
-/* BADGE */
+/* =====================================================
+   BADGE
+===================================================== */
 
 .badge{
- display:inline-block;
- padding:4px 8px;
- border-radius:20px;
- font-size:10px;
- font-weight:bold;
- background:#24466e;
+    display:inline-block;
+
+    padding:4px 8px;
+
+    border-radius:20px;
+
+    font-size:10px;
+
+    font-weight:bold;
 }
 
 .online{
- background:#104e40;
- color:#69ffc0;
+    background:#104d3d;
+    color:#6cffc2;
 }
 
 .offline{
- background:#5a2334;
- color:#ff9aaa;
+    background:#5b2635;
+    color:#ff9baa;
 }
 
-/* TOPOLOGY */
+.warning{
+    background:#594717;
+    color:#ffd86a;
+}
+
+/* =====================================================
+   TOPOLOGY
+===================================================== */
 
 .topology{
- position:relative;
- height:330px;
- overflow:hidden;
- border-radius:12px;
- background:radial-gradient(circle,#153b66,#07172f);
- border:1px solid var(--line);
+    position:relative;
+
+    min-height:430px;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            circle,
+            #163e6b,
+            #07162c
+        );
+
+    border:1px solid var(--border);
 }
 
-.node{
- position:absolute;
- min-width:110px;
- text-align:center;
- padding:12px 8px;
- border:1px solid #3975b6;
- background:#102e55;
- border-radius:12px;
- font-size:12px;
+.topology-node{
+    position:absolute;
+
+    min-width:110px;
+
+    padding:12px 8px;
+
+    text-align:center;
+
+    border:1px solid #3976b8;
+
+    background:#102d52;
+
+    border-radius:12px;
+
+    font-size:12px;
 }
 
-.node small{
- display:block;
- color:#9eb6d5;
- margin-top:4px;
+.topology-node small{
+    display:block;
+
+    color:#9eb6d5;
+
+    margin-top:4px;
 }
 
-/* PROGRESS */
+/* =====================================================
+   PROGRESS
+===================================================== */
 
 .progress{
- height:9px;
- background:#07152b;
- border-radius:20px;
- overflow:hidden;
+    height:9px;
+
+    background:#071326;
+
+    border-radius:20px;
+
+    overflow:hidden;
 }
 
-.progress i{
- display:block;
- height:100%;
- background:linear-gradient(90deg,var(--blue),var(--blue2));
+.progress span{
+    display:block;
+
+    height:100%;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--blue),
+            var(--blue2)
+        );
 }
 
-/* CANVAS */
+/* =====================================================
+   CANVAS
+===================================================== */
 
 canvas{
- width:100%;
- height:240px;
- background:#081a34;
- border-radius:10px;
+    width:100%;
+    height:240px;
+
+    border-radius:10px;
+
+    background:#081a34;
 }
 
-/* EMPTY */
-
-.empty{
- text-align:center;
- padding:30px;
- color:var(--muted);
-}
-
-/* LOG */
+/* =====================================================
+   LOG
+===================================================== */
 
 .logs{
- max-height:350px;
- overflow-y:auto;
+    max-height:400px;
+    overflow-y:auto;
 }
 
 .log{
- padding:10px;
- border-bottom:1px solid var(--line);
- font-size:12px;
+    padding:10px 5px;
+
+    border-bottom:1px solid var(--border);
+
+    font-size:12px;
 }
 
-/* MODAL */
+.log-time{
+    color:var(--muted);
+    font-size:10px;
+}
+
+/* =====================================================
+   DOCUMENTATION
+===================================================== */
+
+.doc{
+    padding:14px;
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    margin-bottom:10px;
+}
+
+.doc h3{
+    font-size:14px;
+    margin-bottom:7px;
+}
+
+.doc p{
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.6;
+}
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty{
+    text-align:center;
+
+    padding:35px 15px;
+
+    color:var(--muted);
+}
+
+/* =====================================================
+   MODAL
+===================================================== */
 
 .modal{
- position:fixed;
- inset:0;
- background:#0009;
- display:none;
- align-items:center;
- justify-content:center;
- padding:15px;
- z-index:2000;
+    position:fixed;
+
+    inset:0;
+
+    background:#0009;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:15px;
+
+    z-index:3000;
 }
 
 .modal.show{
- display:flex;
+    display:flex;
 }
 
 .modal-box{
- background:var(--card);
- border:1px solid var(--line);
- border-radius:15px;
- padding:20px;
- width:100%;
- max-width:600px;
- max-height:90vh;
- overflow:auto;
+    width:100%;
+    max-width:600px;
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:20px;
 }
 
-/* TOAST */
+/* =====================================================
+   TOAST
+===================================================== */
 
 .toast{
- position:fixed;
- right:20px;
- bottom:20px;
- background:#12345d;
- color:white;
- padding:12px 16px;
- border-radius:9px;
- display:none;
- z-index:3000;
+    position:fixed;
+
+    right:20px;
+    bottom:20px;
+
+    background:#12385f;
+
+    color:white;
+
+    padding:12px 17px;
+
+    border-radius:9px;
+
+    display:none;
+
+    z-index:5000;
+
+    font-size:12px;
 }
 
-/* MOBILE BUTTON */
-
-.mobile-menu{
- display:none;
-}
-
-/* MOBILE */
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media(max-width:900px){
 
- .sidebar{
-  width:225px;
- }
+    .sidebar{
+        width:230px;
+    }
 
- .main{
-  margin-left:225px;
- }
+    .main{
+        margin-left:230px;
+    }
 
- .cards{
-  grid-template-columns:repeat(2,1fr);
- }
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
 
+    .grid-2{
+        grid-template-columns:1fr;
+    }
+
+    .grid-3{
+        grid-template-columns:1fr;
+    }
 }
 
 @media(max-width:650px){
 
- .sidebar{
-  width:280px;
-  max-width:85%;
-  transform:translateX(-110%);
-  box-shadow:10px 0 35px #0007;
- }
+    .sidebar{
+        width:280px;
+        max-width:85%;
 
- .sidebar.open{
-  transform:translateX(0);
- }
+        transform:translateX(-110%);
 
- .main{
-  margin-left:0;
-  padding:10px;
- }
+        box-shadow:10px 0 35px #0008;
+    }
 
- .mobile-menu{
-  display:block;
- }
+    .sidebar.open{
+        transform:translateX(0);
+    }
 
- .header{
-  position:sticky;
-  top:0;
-  z-index:100;
-  background:rgba(7,21,46,.94);
-  backdrop-filter:blur(12px);
-  margin:-10px -10px 14px;
-  padding:10px;
- }
+    .main{
+        margin-left:0;
+        padding:10px;
+    }
 
- body.light .header{
-  background:rgba(255,255,255,.94);
- }
+    .mobile-menu{
+        display:block;
+    }
 
- .header h1{
-  font-size:19px;
- }
+    .topbar{
+        position:sticky;
 
- .header p{
-  display:none;
- }
+        top:0;
 
- .header-left{
-  flex:1;
- }
+        z-index:500;
 
- .header-actions .btn{
-  padding:8px 10px;
- }
+        margin:-10px -10px 14px;
 
- .cards{
-  grid-template-columns:1fr 1fr;
-  gap:9px;
- }
+        padding:10px;
 
- .stat{
-  min-height:100px;
-  padding:13px;
- }
+        background:rgba(7,20,38,.95);
 
- .stat-number{
-  font-size:23px;
- }
+        backdrop-filter:blur(12px);
+    }
 
- .stat-title{
-  font-size:11px;
- }
+    body.light .topbar{
+        background:rgba(255,255,255,.95);
+    }
 
- .grid2,
- .grid3{
-  grid-template-columns:1fr;
- }
+    .top-left h1{
+        font-size:18px;
+    }
 
- .form{
-  grid-template-columns:1fr;
- }
+    .top-left p{
+        display:none;
+    }
 
- .full{
-  grid-column:auto;
- }
+    .top-actions .btn{
+        padding:8px 10px;
+    }
 
- .toolbar{
-  display:grid;
-  grid-template-columns:1fr;
- }
+    .stats{
+        grid-template-columns:1fr 1fr;
 
- .toolbar .btn,
- .toolbar .search{
-  width:100%;
-  max-width:none;
- }
+        gap:9px;
+    }
 
- input,select,textarea{
-  min-height:44px;
-  font-size:16px;
- }
+    .stat{
+        min-height:105px;
+        padding:13px;
+    }
 
- .card{
-  padding:13px;
-  border-radius:12px;
- }
+    .stat-value{
+        font-size:22px;
+    }
 
- .topology{
-  height:420px;
- }
+    .card{
+        padding:13px;
+    }
 
- canvas{
-  height:190px;
- }
+    .form-grid{
+        grid-template-columns:1fr;
+    }
 
- .modal{
-  align-items:flex-end;
-  padding:0;
- }
+    .full{
+        grid-column:auto;
+    }
 
- .modal-box{
-  max-width:none;
-  border-radius:18px 18px 0 0;
-  max-height:88vh;
- }
+    .toolbar{
+        display:grid;
+        grid-template-columns:1fr;
+    }
 
+    .toolbar .btn,
+    .toolbar .search{
+        width:100%;
+    }
+
+    input,
+    select,
+    textarea{
+        min-height:44px;
+        font-size:16px;
+    }
+
+    .topology{
+        min-height:500px;
+    }
+
+    canvas{
+        height:190px;
+    }
+
+    .modal{
+        align-items:flex-end;
+        padding:0;
+    }
+
+    .modal-box{
+        max-width:none;
+
+        max-height:90vh;
+
+        border-radius:18px 18px 0 0;
+    }
+
+    .toast{
+        left:15px;
+        right:15px;
+        bottom:15px;
+        text-align:center;
+    }
 }
-
-/* HP KECIL */
 
 @media(max-width:380px){
 
- .cards{
-  grid-template-columns:1fr;
- }
+    .stats{
+        grid-template-columns:1fr;
+    }
 
- .header h1{
-  font-size:17px;
- }
-
- .stat-number{
-  font-size:25px;
- }
-
+    .top-left h1{
+        font-size:17px;
+    }
 }
 </style>
 </head>
 
+
 <body>
 
-<!-- SIDEBAR -->
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
 
 <aside class="sidebar" id="sidebar">
 
-<div class="logo-area">
-<div class="logo">TN</div>
-<div>
-<b>Teuku Networking</b>
-<small>Network Management</small>
-</div>
-</div>
+    <div class="logo">
 
-<div class="menu-title">MAIN</div>
+        <div class="logo-icon">
+            TN
+        </div>
 
-<div class="menu">
+        <div class="logo-text">
+            <b>Teuku Networking</b>
+            <small>Network Management</small>
+        </div>
 
-<button onclick="page('dashboard')">
-<span>🏠</span>Dashboard
-</button>
+    </div>
 
-<button onclick="page('topology')">
-<span>🌐</span>Network Topology
-</button>
 
-<button onclick="page('devices')">
-<span>🖥️</span>Devices
-</button>
+    <div class="menu-title">
+        MAIN
+    </div>
 
-<button onclick="page('clients')">
-<span>👥</span>Clients
-</button>
+    <nav class="menu">
 
-</div>
+        <a href="#dashboard" class="active" data-page="dashboard">
+            <span class="menu-icon">🏠</span>
+            Dashboard
+        </a>
 
-<div class="menu-title">NETWORK TOOLS</div>
+        <a href="#topology" data-page="topology">
+            <span class="menu-icon">🌐</span>
+            Network Topology
+        </a>
 
-<div class="menu">
+        <a href="#devices" data-page="devices">
+            <span class="menu-icon">🖥️</span>
+            Devices
+        </a>
 
-<button onclick="page('ip')">
-<span>📋</span>IP Manager
-</button>
+        <a href="#clients" data-page="clients">
+            <span class="menu-icon">👥</span>
+            Clients
+        </a>
 
-<button onclick="page('subnet')">
-<span>🧮</span>Subnet Calculator
-</button>
+    </nav>
 
-<button onclick="page('ping')">
-<span>📡</span>Ping Tester
-</button>
 
-<button onclick="page('wifi')">
-<span>📶</span>Wi-Fi Manager
-</button>
+    <div class="menu-title">
+        NETWORK TOOLS
+    </div>
 
-<button onclick="page('firewall')">
-<span>🔥</span>Firewall
-</button>
+    <nav class="menu">
 
-</div>
+        <a href="#ip" data-page="ip">
+            <span class="menu-icon">📋</span>
+            IP Manager
+        </a>
 
-<div class="menu-title">MONITORING</div>
+        <a href="#subnet" data-page="subnet">
+            <span class="menu-icon">🧮</span>
+            Subnet Calculator
+        </a>
 
-<div class="menu">
+        <a href="#ping" data-page="ping">
+            <span class="menu-icon">📡</span>
+            Ping Tester
+        </a>
 
-<button onclick="page('bandwidth')">
-<span>📊</span>Bandwidth
-</button>
+        <a href="#wifi" data-page="wifi">
+            <span class="menu-icon">📶</span>
+            Wi-Fi Manager
+        </a>
 
-<button onclick="page('logs')">
-<span>📝</span>System Logs
-</button>
+        <a href="#firewall" data-page="firewall">
+            <span class="menu-icon">🔥</span>
+            Firewall
+        </a>
 
-</div>
+    </nav>
 
-<div class="menu-title">DOCUMENTATION</div>
 
-<div class="menu">
+    <div class="menu-title">
+        MONITORING
+    </div>
 
-<button onclick="page('docs')">
-<span>📚</span>Dokumentasi
-</button>
+    <nav class="menu">
 
-<button onclick="page('reports')">
-<span>📄</span>Laporan
-</button>
+        <a href="#bandwidth" data-page="bandwidth">
+            <span class="menu-icon">📊</span>
+            Bandwidth
+        </a>
 
-</div>
+        <a href="#logs" data-page="logs">
+            <span class="menu-icon">📝</span>
+            System Logs
+        </a>
 
-<div class="menu-title">SYSTEM</div>
+    </nav>
 
-<div class="menu">
 
-<button onclick="page('settings')">
-<span>⚙️</span>Settings
-</button>
+    <div class="menu-title">
+        DOCUMENTATION
+    </div>
 
-</div>
+    <nav class="menu">
+
+        <a href="#docs" data-page="docs">
+            <span class="menu-icon">📚</span>
+            Dokumentasi
+        </a>
+
+        <a href="#reports" data-page="reports">
+            <span class="menu-icon">📄</span>
+            Laporan
+        </a>
+
+    </nav>
+
+
+    <div class="menu-title">
+        SYSTEM
+    </div>
+
+    <nav class="menu">
+
+        <a href="#settings" data-page="settings">
+            <span class="menu-icon">⚙️</span>
+            Settings
+        </a>
+
+    </nav>
 
 </aside>
 
 
-<!-- MAIN -->
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
 <main class="main">
 
-<header class="header">
 
-<div class="header-left">
+    <!-- TOPBAR -->
 
-<button
-class="btn mobile-menu"
-onclick="toggleMenu()">
-☰
-</button>
+    <header class="topbar">
 
-<div>
+        <div class="top-left">
 
-<h1 id="pageTitle">
-Dashboard
-</h1>
+            <button
+                class="btn mobile-menu"
+                id="mobileMenu">
+                ☰
+            </button>
 
-<p>
-Teuku Networking › Network Management
-</p>
+            <div>
 
-</div>
+                <h1 id="pageTitle">
+                    Dashboard
+                </h1>
 
-</div>
+                <p>
+                    Teuku Networking › Network Management
+                </p>
 
-<div class="header-actions">
+            </div>
 
-<button
-class="btn"
-onclick="theme()">
-🌓
-</button>
+        </div>
 
-</div>
 
-</header>
+        <div class="top-actions">
 
+            <button
+                class="btn"
+                id="themeButton">
+                🌓
+            </button>
 
-<!-- DASHBOARD -->
+        </div>
 
-<section id="dashboard" class="page active">
+    </header>
 
-<div class="cards">
 
-<div class="card stat">
-<div class="stat-title">🖥️ Total Devices</div>
-<div class="stat-number" id="totalDevices">0</div>
-<small class="muted">Network devices</small>
-</div>
+    <!-- =================================================
+         DASHBOARD
+    ================================================= -->
 
-<div class="card stat">
-<div class="stat-title">👥 Active Clients</div>
-<div class="stat-number" id="totalClients">0</div>
-<small class="muted">Connected clients</small>
-</div>
+    <section
+        class="page active"
+        id="page-dashboard">
 
-<div class="card stat">
-<div class="stat-title">⬇️ Download</div>
-<div class="stat-number" id="download">0 Mbps</div>
-<small class="green">Online</small>
-</div>
+        <div class="stats">
 
-<div class="card stat">
-<div class="stat-title">⬆️ Upload</div>
-<div class="stat-number" id="upload">0 Mbps</div>
-<small class="green">Online</small>
-</div>
+            <div class="card stat">
 
-</div>
+                <div class="stat-icon">
+                    🖥️
+                </div>
 
-<div class="grid2">
+                <div class="stat-label">
+                    Total Devices
+                </div>
 
-<div class="card">
+                <div
+                    class="stat-value"
+                    id="statDevices">
+                    0
+                </div>
 
-<h3>Network Traffic</h3>
+                <div class="stat-status">
+                    ● Network devices
+                </div>
 
-<br>
+            </div>
 
-<canvas id="chart"></canvas>
 
-</div>
+            <div class="card stat">
 
-<div class="card">
+                <div class="stat-icon">
+                    👥
+                </div>
 
-<h3>Network Status</h3>
+                <div class="stat-label">
+                    Active Clients
+                </div>
 
-<br>
+                <div
+                    class="stat-value"
+                    id="statClients">
+                    0
+                </div>
 
-<p>
-Internet:
-<span class="green">
-● Online
-</span>
-</p>
+                <div class="stat-status">
+                    ● Connected
+                </div>
 
-<br>
+            </div>
 
-<div class="progress">
-<i style="width:90%"></i>
-</div>
 
-<br>
+            <div class="card stat">
 
-<p>
-Gateway:
-<b>192.168.1.1</b>
-</p>
+                <div class="stat-icon">
+                    ⬇️
+                </div>
 
-<p>
-DNS:
-<b>8.8.8.8</b>
-</p>
+                <div class="stat-label">
+                    Download
+                </div>
 
-</div>
+                <div
+                    class="stat-value"
+                    id="statDownload">
+                    0 Mbps
+                </div>
 
-</div>
+                <div class="stat-status">
+                    ● Online
+                </div>
 
-<br>
+            </div>
 
-<div class="card">
 
-<h3>Recent Devices</h3>
+            <div class="card stat">
 
-<br>
+                <div class="stat-icon">
+                    ⬆️
+                </div>
 
-<div id="recent"></div>
+                <div class="stat-label">
+                    Upload
+                </div>
 
-</div>
+                <div
+                    class="stat-value"
+                    id="statUpload">
+                    0 Mbps
+                </div>
 
-</section>
+                <div class="stat-status">
+                    ● Online
+                </div>
 
+            </div>
 
-<!-- TOPOLOGY -->
+        </div>
 
-<section id="topology" class="page">
 
-<div class="card">
+        <div class="grid-2">
 
-<div class="toolbar">
+            <div class="card">
 
-<button
-class="btn primary"
-onclick="drawTopology()">
-🔄 Refresh
-</button>
+                <h2 class="card-title">
+                    📊 Network Traffic
+                </h2>
 
-</div>
+                <p class="card-subtitle">
+                    Monitoring bandwidth
+                </p>
 
-<div class="topology" id="topologyBox"></div>
+                <br>
 
-</div>
+                <canvas id="trafficChart"></canvas>
 
-</section>
+            </div>
 
 
-<!-- DEVICES -->
+            <div class="card">
 
-<section id="devices" class="page">
+                <h2 class="card-title">
+                    🌐 Network Status
+                </h2>
 
-<div class="card">
+                <p class="card-subtitle">
+                    Status jaringan
+                </p>
 
-<div class="toolbar">
+                <br>
 
-<button
-class="btn primary"
-onclick="deviceModal()">
-＋ Tambah Device
-</button>
+                <p>
+                    Internet:
+                    <b class="green">
+                        ● Online
+                    </b>
+                </p>
 
-<input
-class="search"
-id="deviceSearch"
-placeholder="Cari device..."
-oninput="renderDevices()"
->
+                <br>
 
-</div>
+                <div class="progress">
+                    <span style="width:90%"></span>
+                </div>
 
-<div
-class="table-wrap"
-id="devicesTable">
-</div>
+                <br>
 
-</div>
+                <p class="card-subtitle">
+                    Gateway
+                </p>
 
-</section>
+                <b>
+                    192.168.1.1
+                </b>
 
+                <br><br>
 
-<!-- CLIENTS -->
+                <p class="card-subtitle">
+                    DNS
+                </p>
 
-<section id="clients" class="page">
+                <b>
+                    8.8.8.8
+                </b>
 
-<div class="card">
+            </div>
 
-<div class="toolbar">
+        </div>
 
-<button
-class="btn primary"
-onclick="clientModal()">
-＋ Tambah Client
-</button>
 
-<input
-class="search"
-id="clientSearch"
-placeholder="Cari client..."
-oninput="renderClients()"
->
-
-</div>
-
-<div
-class="table-wrap"
-id="clientsTable">
-</div>
-
-</div>
-
-</section>
-
-
-<!-- IP -->
-
-<section id="ip" class="page">
-
-<div class="card">
-
-<div class="toolbar">
-
-<button
-class="btn primary"
-onclick="ipModal()">
-＋ Tambah IP
-</button>
-
-<input
-class="search"
-id="ipSearch"
-placeholder="Cari IP..."
-oninput="renderIP()"
->
-
-</div>
-
-<div
-class="table-wrap"
-id="ipTable">
-</div>
-
-</div>
-
-</section>
-
-
-<!-- SUBNET -->
-
-<section id="subnet" class="page">
-
-<div class="card">
-
-<h3>🧮 Subnet Calculator</h3>
-
-<br>
-
-<div class="form">
-
-<div>
-
-<label>IP Address</label>
-
-<input
-id="subIP"
-value="192.168.1.10"
->
-
-</div>
-
-<div>
-
-<label>CIDR</label>
-
-<select id="cidr">
-
-<option>24</option>
-<option>25</option>
-<option>26</option>
-<option>27</option>
-<option>28</option>
-<option>29</option>
-<option>30</option>
-<option>16</option>
-
-</select>
-
-</div>
-
-<div class="full">
-
-<button
-class="btn primary"
-onclick="calculateSubnet()">
-Hitung Subnet
-</button>
-
-</div>
-
-</div>
-
-<br>
-
-<div id="subnetResult"></div>
-
-</div>
-
-</section>
-
-
-<!-- PING -->
-
-<section id="ping" class="page">
-
-<div class="card">
-
-<h3>📡 Ping Tester</h3>
-
-<p class="muted">
-Tes ping simulasi pada browser.
-</p>
-
-<br>
-
-<div class="form">
-
-<div>
-
-<label>IP / Host</label>
-
-<input
-id="pingIP"
-value="192.168.1.1"
->
-
-</div>
-
-<div>
-
-<label>Jumlah Paket</label>
-
-<select id="pingCount">
-
-<option>4</option>
-<option>8</option>
-<option>10</option>
-
-</select>
-
-</div>
-
-<div class="full">
-
-<button
-class="btn primary"
-onclick="pingTest()">
-▶ Jalankan Ping
-</button>
-
-</div>
-
-</div>
-
-<br>
-
-<pre
-id="pingResult"
-class="card"
-style="white-space:pre-wrap;overflow:auto">
-</pre>
-
-</div>
-
-</section>
-
-
-<!-- WIFI -->
-
-<section id="wifi" class="page">
-
-<div class="card">
-
-<div class="toolbar">
-
-<button
-class="btn primary"
-onclick="wifiModal()">
-＋ Tambah Wi-Fi
-</button>
-
-</div>
-
-<div
-class="table-wrap"
-id="wifiTable">
-</div>
-
-</div>
-
-</section>
-
-
-<!-- FIREWALL -->
-
-<section id="firewall" class="page">
-
-<div class="card">
-
-<div class="toolbar">
-
-<button
-class="btn primary"
-onclick="firewallModal()">
-＋ Tambah Rule
-</button>
-
-</div>
-
-<div
-class="table-wrap"
-id="firewallTable">
-</div>
-
-</div>
-
-</section>
-
-
-<!-- BANDWIDTH -->
-
-<section id="bandwidth" class="page">
-
-<div class="grid2">
-
-<div class="card">
-
-<h3>📊 Bandwidth Monitor</h3>
-
-<br>
-
-<canvas id="bandChart"></canvas>
-
-</div>
-
-<div class="card">
-
-<h3>Current Traffic</h3>
-
-<br>
-
-<h2 id="bwDown">0 Mbps ↓</h2>
-
-<br>
-
-<div class="progress">
-<i id="downBar"></i>
-</div>
-
-<br>
-
-<h2 id="bwUp">0 Mbps ↑</h2>
-
-<br>
-
-<div class="progress">
-<i id="upBar"></i>
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- LOGS -->
-
-<section id="logs" class="page">
-
-<div class="card">
-
-<div class="toolbar">
-
-<button
-class="btn danger"
-onclick="clearLogs()">
-🗑️ Bersihkan
-</button>
-
-</div>
-
-<div
-class="logs"
-id="logsBox">
-</div>
-
-</div>
-
-</section>
-
-
-<!-- DOKUMENTASI -->
-
-<section id="docs" class="page">
-
-<div class="card">
-
-<div class="toolbar">
-
-<button
-class="btn primary"
-onclick="docModal()">
-＋ Tambah Dokumentasi
-</button>
-
-<input
-class="search"
-id="docSearch"
-placeholder="Cari dokumentasi..."
-oninput="renderDocs()"
->
-
-</div>
-
-<div id="docsList"></div>
-
-</div>
-
-</section>
-
-
-<!-- LAPORAN -->
-
-<section id="reports" class="page">
-
-<div class="grid2">
-
-<div class="card">
-
-<h3>📄 Network Report</h3>
-
-<br>
-
-<p class="muted">
-Buat laporan kondisi jaringan.
-</p>
-
-<br>
-
-<button
-class="btn primary"
-onclick="generateReport()">
-Generate Laporan
-</button>
-
-<button
-class="btn"
-onclick="window.print()">
-Print / PDF
-</button>
-
-</div>
-
-<div class="card">
-
-<h3>💾 Backup Data</h3>
-
-<br>
-
-<button
-class="btn"
-onclick="exportData()">
-⬇️ Export
-</button>
-
-</div>
-
-</div>
-
-<br>
-
-<div
-class="card"
-id="report">
-</div>
-
-</section>
-
-
-<!-- SETTINGS -->
-
-<section id="settings" class="page">
-
-<div class="grid2">
-
-<div class="card">
-
-<h3>⚙️ Settings</h3>
-
-<br>
-
-<label>Nama Website</label>
-
-<input
-id="siteName"
-value="Teuku Networking"
->
-
-<br><br>
-
-<button
-class="btn primary"
-onclick="saveSettings()">
-💾 Simpan
-</button>
-
-</div>
-
-<div class="card">
-
-<h3>Data</h3>
-
-<br>
-
-<button
-class="btn danger"
-onclick="resetData()">
-⚠️ Reset Data
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-</main>
-
-
-<!-- MODAL -->
-
-<div
-class="modal"
-id="modal">
-
-<div
-class="modal-box"
-id="modalBox">
-</div>
-
-</div>
-
-
-<div
-class="toast"
-id="toast">
-</div>
-
-
-<script>
-
-/* =========================
-DATA
-========================= */
-
-const defaultData={
-
-devices:[
-{
-id:1,
-name:"MikroTik Router",
-type:"Router",
-ip:"192.168.1.1",
-status:"Online"
-},
-{
-id:2,
-name:"Core Switch",
-type:"Switch",
-ip:"192.168.1.2",
-status:"Online"
-},
-{
-id:3,
-name:"Access Point",
-type:"Access Point",
-ip:"192.168.1.3",
-status:"Online"
-},
-{
-id:4,
-name:"Server",
-type:"Server",
-ip:"192.168.1.10",
-status:"Online"
-}
-],
-
-clients:[
-{
-id:1,
-name:"PC Lab 01",
-ip:"192.168.1.20",
-mac:"AA:BB:CC:01:02",
-device:"Switch",
-status:"Online"
-},
-{
-id:2,
-name:"Laptop Aulia",
-ip:"192.168.1.21",
-mac:"AA:BB:CC:03:04",
-device:"Access Point",
-status:"Online"
-}
-],
-
-ips:[
-{
-id:1,
-ip:"192.168.1.1",
-prefix:24,
-device:"MikroTik",
-gateway:"-",
-dns:"8.8.8.8"
-}
-],
-
-wifi:[
-{
-id:1,
-ssid:"Teuku-Networking",
-band:"2.4 GHz",
-security:"WPA2/WPA3",
-channel:"Auto",
-status:"Enabled"
-},
-{
-id:2,
-ssid:"Teuku-5G",
-band:"5 GHz",
-security:"WPA3",
-channel:"36",
-status:"Enabled"
-}
-],
-
-firewall:[
-{
-id:1,
-chain:"input",
-protocol:"tcp",
-port:"8291",
-action:"accept",
-comment:"Winbox"
-},
-{
-id:2,
-chain:"forward",
-protocol:"tcp",
-port:"80,443",
-action:"accept",
-comment:"Web"
-}
-],
-
-docs:[
-{
-id:1,
-title:"Konfigurasi MikroTik",
-text:"Dokumentasi konfigurasi dasar MikroTik."
-}
-],
-
-logs:[]
-
-};
-
-
-let data=
-JSON.parse(
-localStorage.getItem("TN_DATA")
-)
-||
-JSON.parse(
-JSON.stringify(defaultData)
-);
-
-
-/* =========================
-GENERAL
-========================= */
-
-function save(){
-
-localStorage.setItem(
-"TN_DATA",
-JSON.stringify(data)
-);
-
-}
-
-function esc(x){
-
-return String(x??"")
-.replace(/[&<>"']/g,m=>({
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-}[m]));
-
-}
-
-function id(arr){
-
-return Math.max(
-0,
-...data[arr].map(x=>x.id||0)
-)+1;
-
-}
-
-function toast(t){
-
-let e=
-document.getElementById("toast");
-
-e.textContent=t;
-
-e.style.display="block";
-
-setTimeout(
-()=>e.style.display="none",
-2000
-);
-
-}
-
-function log(t){
-
-data.logs.unshift({
-time:new Date().toLocaleString("id-ID"),
-text:t
-});
-
-data.logs=
-data.logs.slice(0,100);
-
-save();
-
-renderLogs();
-
-}
-
-
-/* =========================
-PAGE
-========================= */
-
-function page(name){
-
-document
-.querySelectorAll(".page")
-.forEach(x=>
-x.classList.remove("active")
-);
-
-document
-.getElementById(name)
-.classList.add("active");
-
-document
-.querySelectorAll(".menu button")
-.forEach(x=>
-x.classList.remove("active")
-);
-
-event.currentTarget.classList.add("active");
-
-let titles={
-dashboard:"Dashboard",
-topology:"Network Topology",
-devices:"Devices",
-clients:"Clients",
-ip:"IP Manager",
-subnet:"Subnet Calculator",
-ping:"Ping Tester",
-wifi:"Wi-Fi Manager",
-firewall:"Firewall",
-bandwidth:"Bandwidth",
-logs:"System Logs",
-docs:"Dokumentasi",
-reports:"Laporan",
-settings:"Settings"
-};
-
-document
-.getElementById("pageTitle")
-.textContent=titles[name];
-
-document
-.getElementById("sidebar")
-.classList.remove("open");
-
-renderAll();
-
-}
-
-
-function toggleMenu(){
-
-document
-.getElementById("sidebar")
-.classList.toggle("open");
-
-}
-
-
-function theme(){
-
-document
-.body
-.classList
-.toggle("light");
-
-localStorage.setItem(
-"TN_THEME",
-document.body.classList.contains("light")
-?"light"
-:"dark"
-);
-
-}
-
-if(
-localStorage.getItem("TN_THEME")
-==="light"
-){
-
-document.body.classList.add("light");
-
-}
-
-
-/* =========================
-DASHBOARD
-========================= */
-
-function dashboard(){
-
-totalDevices.textContent=
-data.devices.length;
-
-totalClients.textContent=
-data.clients.filter(
-x=>x.status==="Online"
-).length;
-
-download.textContent=
-Math.round(30+Math.random()*60)
-+" Mbps";
-
-upload.textContent=
-Math.round(5+Math.random()*25)
-+" Mbps";
-
-recent.innerHTML=
-data.devices
-.slice(-5)
-.reverse()
-.map(x=>`
-
-<p style="padding:9px 0;border-bottom:1px solid var(--line)">
-
-🖥️ <b>${esc(x.name)}</b>
-
-<span class="badge ${
-x.status==="Online"
-?"online"
-:"offline"
-}">
-${x.status}
-</span>
-
-<span class="muted">
-${x.ip}
-</span>
-
-</p>
-
-`)
-.join("");
-
-drawChart("chart");
-
-}
-
-
-/* =========================
-DEVICES
-========================= */
-
-function renderDevices(){
-
-let q=
-(
-document.getEle
+        <div class="car
